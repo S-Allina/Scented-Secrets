@@ -1,0 +1,54 @@
+﻿@model Shop.Web.Models.ProductDTO
+
+@{
+    ViewData["Title"] = "ProductCreate";
+}
+
+@*@*<div class="container p-4 border">*@
+<link rel="stylesheet" href="~/css/FormStyle.css" asp-append-version="true" />
+
+<h1 >Создание нового товара</h1>
+
+<hr />
+
+    <form asp-action="ProductCreate" class="form">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <p class="title">Создание</p>
+        <p class="message">Signup now and get full access to our app. </p>
+            <div class="flex">
+           
+            <label asp-for="ProductName">
+                <input asp-for="ProductName" class="input" type="text" placeholder="" required="">
+
+                <span asp-validation-for="ProductName">Название</span>
+        </label>
+
+            <label asp-for="ProductPrice" >
+                <input asp-for="ProductPrice"  class="input" type="number" placeholder="" required="">
+                <span asp-validation-for="ProductPrice">Цена</span>
+        </label>
+    </div>
+
+        <label asp-for="CategoryName">
+            <input asp-for="CategoryName" class="input" type="text" placeholder="" required="">
+            <span asp-validation-for="CategoryName">Категория</span>
+    </label>
+        
+        <label asp-for="ProductImg">
+            <input asp-for="ProductImg" class="input" type="url" placeholder="" required="">
+            <span asp-validation-for="ProductImg">Адрес картинки</span>
+    </label>
+        <label asp-for="ProductDescription">
+            <textarea asp-for="ProductDescription" class="input"  placeholder="" required="" ></textarea>
+            <span asp-validation-for="ProductDescription">Описание</span>
+    </label>
+    <div class="flex">
+    <button class="submit">Создать</button>
+    <a asp-action="ProductIndex" class="submit">Назад</a>
+   </div>
+</form>
+
+@*</div>*@
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

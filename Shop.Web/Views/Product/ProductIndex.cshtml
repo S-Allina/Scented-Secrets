@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Shop.Web.Models.ProductDTO>
+<link rel="stylesheet" href="~/css/TableStyle.css" asp-append-version="true" />
+
+    <br />
+    <div class="container p-4 border">
+        <div class="row pb-2">
+<div class="col">
+    <h1 >Перечень товаров</h1>
+</div>
+        <div class="col text-end pt-1">
+            <a asp-action="ProductCreate" class="btn submit reverse"><i class="bi bi-plus"></i>Создать</a>
+        </div>
+
+        </div>
+    <div class="container">
+        <ul class="responsive-table">
+            <li class="table-header">
+                <div class="col col-1">Название</div> |
+                <div class="col col-2">Цена</div> |
+                <div class="col col-3">Категория</div> |
+                <div class="col col-4">Описание</div> |
+                <div class="col col-5">Картинка</div> 
+                <div class="col col-6"></div>
+            </li>
+            @foreach(var i in Model){
+            <li class="table-row">
+                <div class="col col-1" data-label="Job Id">@i.ProductName</div> |
+                <div class="col col-2" data-label="Customer Name">@i.ProductPrice</div> |
+                    <div class="col col-3" data-label="Amount">@i.CategoryName</div> |
+                <div class="col col-4" data-label="Payment Status">$@i.ProductDescription</div> 
+                    <div class="col col-5" data-label="Payment Status"><img src="@i.ProductImg"/></div>
+                    <div class="col col-6">
+                        <a asp-action="ProductEdit" class="OptionButton EditButton" asp-route-productId=@i.ProductId><i class="bi bi-pencil-square"></i> EDIT</a>
+                        <a asp-action="ProductDelete" class="OptionButton DeleteButton" asp-route-productId=@i.ProductId><i class="bi bi-trash"></i> DELETE</a>
+                    </div>
+
+            </li>
+            }
+        </ul>
+    </div>
+
+                       
+    </div>

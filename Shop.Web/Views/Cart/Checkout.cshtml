@@ -1,0 +1,121 @@
+﻿@model Shop.Web.Models.CartDTO
+
+@if (Model != null && Model?.CartDetails?.Count() > 0)
+{
+    <link rel="stylesheet" href="~/css/CheckoutStyle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/FormStyle.css" asp-append-version="true" />
+    <div id="wrapper">
+        <div class="container1">
+
+            <h2>Состав заказа</h2>
+            <div class="order">
+
+                @foreach (var i in Model.CartDetails)
+                {
+                    <div class="item">
+                        <img src='@i.Product.ProductImg' alt=''>
+                        <div class="info">
+                            <h4>@i.Product.ProductName</h4>
+                            <p class="quantity">Количество: @i.Count</p>
+                            <p class="price">$@i.Product.ProductPrice</p>
+                        </div> <!-- .info -->
+                    </div> <!-- .item -->
+                }
+            </div> <!-- .order -->
+            <h4 class="ship">Скидка: @Html.DisplayFor(m=>m.CartHeader.DiscountTotal)</h4>
+            <hr>
+            <h3 class="total">ИТОГО: $@Html.DisplayFor(m=>m.CartHeader.OrderTotal)</h3>
+
+        </div> <!-- .container1 -->
+
+        <div class="container2">
+            <div class="checkout">
+                @*<p><i class="fas fa-check-circle"></i>Shipping</p>
+            <p><i class="fas fa-check-circle"></i>Checkout</p>
+            <p><i class="fas fa-check-circle"></i>Confirmation</p>*@
+
+                <div class="payment">
+                    <div class="content">
+                        <form class="infos form" method="post">
+                     
+                            @*<div class="method">
+                        <h2>Choose a payment method</h2>
+                        <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/1978060/visa.png' alt='' class="visa">
+                        <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/1978060/mastercard.png' alt='' class="mastercard">
+                        <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/1978060/paypal.png' alt='' class="paypal">
+                        </div>*@ <!-- .method -->
+                            <input asp-for="CartHeader.UserId" hidden />
+                            <input asp-for="CartHeader.CartHeaderId" hidden />
+                            <input asp-for="CartHeader.CouponCode" hidden />
+                            <input asp-for="CartHeader.DiscountTotal" hidden />
+                            <input asp-for="CartHeader.OrderTotal" hidden />
+                            <input asp-for="CartDetails" hidden/>
+                            <p class="title">Оформление заказа</p>
+                            <div class="flex">
+
+                                <label>
+                                    <input asp-for="CartHeader.LastName" class="input" type="text" placeholder="" required>
+
+                                    <span asp-validation-for="CartHeader.LastName">Фамилия</span>
+                                </label>
+
+                                <label>
+                                    <input asp-for="CartHeader.FirstName" class="input" type="text" placeholder="" required>
+                                    <span asp-validation-for="CartHeader.FirstName">Имя</span>
+                                </label>
+                            </div>
+
+                            <label>
+                                <input asp-for="CartHeader.Phone" class="input" type="tel" placeholder="" required>
+                                <span asp-validation-for="CartHeader.Phone">Телефон</span>
+                            </label>
+
+                            <label>
+
+                                <input type="datetime-local"
+                                   asp-for="CartHeader.PickupDateTime" 
+                                   class="input" 
+                                   required
+                                   id="meeting-time"
+                                   name="meeting-time"
+                                   value="2018-06-12T19:30"
+                                   min="2024-02-01T00:00"
+                                   max="2024-02-29T00:00" />
+                                <span asp-validation-for="CartHeader.PickupDateTime">PickupDateTime</span>
+                            </label>
+                         
+                          
+                            <label>
+                                <input pattern=".+example\.com"  asp-for="CartHeader.Email" class="input" type="email" placeholder="" required>
+                                <span asp-validation-for="CartHeader.Email">Email</span>
+                            </label>
+                            <label>
+                                <input pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" asp-for="CartHeader.CardNumber" class="input" type="number" placeholder="" required>
+                                <span asp-validation-for="CartHeader.CardNumber">0000 0000 0000 0000</span>
+                            </label>
+                            <div class="flex">
+                                <label>
+                                    <input asp-for="CartHeader.ExpiryMonthYear" type="month" class="input" placeholder="" required/>
+                                    <span asp-validation-for="CartHeader.ExpiryMonthYear"></span>
+                                   
+                                </label>
+                                <label>
+                                    <input asp-for="CartHeader.CVV" class="input" type="number" placeholder="" required />
+                                    <span asp-validation-for="CartHeader.CVV">CVV</span>
+                                </label>
+                            </div>
+                            <div class="flex">
+                                <button class="submit">Оформить</button>
+                                <a asp-action="ProductIndex" class="submit">Назад</a>
+                            </div>
+
+
+
+
+                        </form> <!-- .infos -->
+                    </div> <!-- .content -->
+                </div> <!-- .payment -->
+            </div> <!-- .checkout -->
+        </div> <!-- .container2 -->
+    </div> <!-- #wrapper -->
+}

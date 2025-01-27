@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Shop.Web.Models.OrderDTO>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<head>
+<link rel="stylesheet" href="~/css/OrderTableStyle.css" asp-append-version="true" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<br />
+<div class="container p-4 border">
+    <div class="row pb-2">
+        <div class="col">
+            <h1>Перечень товаров</h1>
+        </div>
+        <div class="col text-end pt-1">
+            <a asp-action="ProductCreate" class="btn submit reverse"><i class="bi bi-plus"></i>Создать</a>
+        </div>
+
+    </div>
+    <div class="container">
+        <ul class="responsive-table">
+            <li class="table-header">
+                <div class="col col-1">Покупатель</div> |
+                <div class="col col-2">Телефон</div> |
+                <div class="col col-3">Email</div> |
+                <div class="col col-3">Статус</div> |
+                <div class="col col-4">Состав заказа</div> |
+                <div class="col col-5">Дата заказа</div>
+                <div class="col col-6"></div>
+            </li>
+            @foreach (var i in Model)
+            {
+                <li class="table-row">
+                    <div class="col col-1" >@i.orderDetails.FirstName @i.orderDetails.LastName</div> |
+                    <div class="col col-2">@i.orderDetails.Phone</div> |
+                    <div class="col col-3">@i.orderDetails.Email</div> |
+                    <div class="col col-3">@i.orderDetails.Status</div> |
+                    <div class="col col-5">@i.orderDetails.PickupDateTime</div>|
+                        <div >
+                            <div class="panel-group">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse1">Открыть состав заказа</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse1" class="panel-collapse collapse">
+                                        <ul class="list-group">
+                                            @foreach(var product in i.cartDetails){
+                                            <li class="list-group-item">
+                                                <p>Название: <strong> @product.Product.ProductName</strong></p>
+                                                <p>
+                                                    Цена: <strong>$@product.Product.ProductPrice</strong>
+                                            </p>
+                                                <p>Количество: <strong>
+
+                                            @product.Count
+                                            </strong>
+                                            </p>
+                                                <a asp-action="Details" asp-controller="Home" asp-route-id="@product.ProductId">Прейти к товару</a>
+                                            </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>|
+                   
+                    <div class="col col-6">
+                        @*<a asp-action="ProductEdit" class="OptionButton EditButton" asp-route-productId=@i.cartDetails.ProductId><i class="bi bi-pencil-square"></i> EDIT</a>*@
+                        @*<a asp-action="ProductDelete" class="OptionButton DeleteButton" asp-route-productId=@i.ProductId><i class="bi bi-trash"></i> DELETE</a>*@
+                    </div>
+
+                </li>
+            }
+        </ul>
+    </div>
+
+
+</div>
+
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

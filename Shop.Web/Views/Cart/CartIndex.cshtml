@@ -1,0 +1,99 @@
+﻿@model Shop.Web.Models.CartDTO
+
+@{
+    ViewData["Title"] = "CartIndex";
+}
+<link rel="stylesheet" href="~/css/TableStyle.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/CartStyle.css" asp-append-version="true" />
+
+
+<form class="container border" method="post">
+    <div class="row">
+        <div class="col">
+            <div class="header">
+                <h1>Корзина</h1>
+                <a asp-action="Index" asp-controller="Home">
+                    <div class="back">
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+    <input asp-for="CartHeader.UserId" hidden />
+    <input asp-for="CartHeader.CartHeaderId" hidden />
+    <div class="container cart">
+        <ul class="responsive-table">
+            @if (Model.CartHeader != null && Model.CartDetails.Count() > 0)
+            {
+                @foreach (var i in Model.CartDetails)
+                {
+                    <li class="table-row">
+                        <div class="col col-5" data-label="Payment Status"><img src="@i.Product.ProductImg" /></div>
+
+                        <div class="col col-1" data-label="Job Id">@i.Product.ProductName <br /><span>@i.Product.CategoryName</span></div>
+                        <div class="col col-3" data-label="Amount">
+                            <div class="number">
+                                @if (i.Count>1){
+                                <a class="minus" asp-action="PlusMinusProductToCart"
+                           asp-route-cartDetailsid="@i.CartDetailsId"
+                           asp-route-option="minus"
+                           asp-route-productId="@i.ProductId">-</a>
+                                }else{
+                                     <a class="minus" >-</a>
+                                }
+                                    <input type="text" value="@i.Count" />
+                                <a class="plus" asp-action="PlusMinusProductToCart"
+                           asp-route-cartDetailsid="@i.CartDetailsId"
+                           asp-route-option="plus"
+                           asp-route-productId="@i.ProductId">+</a>
+                            </div>
+                        </div>
+                        <div class="col col-6">
+                            <p>$@i.Product.ProductPrice</p>
+                            <a asp-action="CartRemove" asp-route-cartDetailsId="@i.CartDetailsId" class="OptionButton DeleteButton" asp-route-productId=@i.ProductId><i class="bi bi-trash"></i> DELETE</a>
+                        </div>
+
+                    </li>
+                }
+            }else{
+            <li class="noneProduct">Пожалуйста добавьте товары в корзину</li>
+            }
+        </ul>
+    </div>
+    <div class="Container_footer">
+        <div class="coupon">
+            <p>Купон</p>
+            @if(string.IsNullOrEmpty(Model?.CartHeader?.CouponCode))
+            {
+
+
+                <input asp-for="CartHeader.CouponCode" />
+                <button type="submit" asp-action="ApplyCoupon" class="submit reverse">Приминить</button>
+            }
+            else
+            {
+                <input asp-for="CartHeader.CouponCode" | disabled/>
+                <button type="submit" asp-action="RemoveCoupon" class="submit reverse">Удалить</button>
+            }
+        </div>
+        <div class="buy">
+            @if (Model?.CartHeader?.DiscountTotal!=0 && Model?.CartHeader?.CouponCode!="")
+            {
+                <span>Скидка: $@Html.DisplayFor(m=>m.CartHeader.DiscountTotal)</span>
+            }
+            else if (Model?.CartHeader?.CouponCode != "" && Model?.CartHeader?.DiscountTotal == 0)
+            {
+                <span>К сожалению купон неверный</span>
+            }
+            else{
+            
+            }
+            <p>Итого: $@Html.DisplayFor(m=>m.CartHeader.OrderTotal)</p>
+            <a asp-action="Checkout" class="submit reverse">Купить</a>
+        </div>
+    </div>
+
+</form>
+

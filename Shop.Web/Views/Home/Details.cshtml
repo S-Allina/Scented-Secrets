@@ -1,0 +1,58 @@
+﻿@model Shop.Web.Models.ProductDTO
+
+@{
+    ViewData["Title"] = "Details";
+}
+<link rel="stylesheet" href="~/css/FullProductStyle.css" asp-append-version="true" />
+<h1>Подробнее</h1>
+
+<form class="product" asp-action="Details">
+    <div class="header">
+        <a asp-action="Index">
+            <div class="back">
+            </div>
+        </a>
+    </div>
+    <div class="main">
+        <div class="left">
+            <h1>@Html.DisplayFor(m=>m.ProductName)</h1>
+            <h2>@Html.DisplayFor(m=>m.CategoryName)</h2>
+
+            <img src="@Html.DisplayFor(m=>m.ProductImg)" alt="" />
+
+        </div>
+        <div class="right">
+            <h2>Описание</h2>
+            <div class="discription">
+                <p>
+                    Replay #Tank Plate For Her - это современные, стильные и соблазнительные духи для современных женщин, которые любят быть в центре внимания. Эти духи олицетворяют смелость, стойкость и уверенность, вдохновляя свою обладательницу выражать свою индивидуальность и стиль через запах.
+                    <br />
+                    С первых нот аромата Replay #Tank Plate For Her раскрывается магическая смесь сочного фруктового аккорда, добавляющая ноты свежести и энергии. Затем сердце аромата раскрывается экзотическими цветочными нотами, создавая роскошный и чувственный букет. В завершении, базовые ноты духов дарят долговечность и глубину, оставляя за собой запоминающийся и завораживающий шлейф.
+                    <br />
+                    Replay #Tank Plate For Her - это аромат, который идеально подходит для любого времени суток и любого события. Он подчеркивает индивидуальность и стиль своей обладательницы, делая ее неповторимой и неотразимой. Погрузитесь в мир элегантности и соблазна с духами Replay #Tank Plate For Her.
+                </p>
+            </div>
+
+            <p class="quantity">Количество <input asp-for="Count" type="number" /></p>
+            <input asp-for="CategoryName" hidden />
+            <input asp-for="ProductName" hidden />
+            <input asp-for="ProductId" hidden />
+            <input asp-for="ProductDescription" hidden />
+            <input asp-for="ProductImg" hidden />
+            <input asp-for="ProductPrice" hidden />
+        </div>
+    </div>
+    <div class="footer">
+        <div class="left">
+            <p id="price">$@Html.DisplayFor(m=>m.ProductPrice)</p>
+        </div>
+        <div class="right">
+            <button><span>В корзину</span></button>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
